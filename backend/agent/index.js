@@ -157,12 +157,14 @@ const gatherDataNode = async (state) => {
           
           if (goodImages.length > 0) {
             const imgTitle = goodImages[0].title;
-            const imgUrlRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url&titles=${encodeURIComponent(imgTitle)}&format=json&origin=*`);
+            // Request an 800px thumbnail to drastically improve loading speed
+            const imgUrlRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url&iiurlwidth=800&titles=${encodeURIComponent(imgTitle)}&format=json&origin=*`);
             const imgUrlData = await imgUrlRes.json();
             const imgPages = imgUrlData.query?.pages;
             if (imgPages) {
               const imgPageId = Object.keys(imgPages)[0];
-              const url = imgPages[imgPageId]?.imageinfo?.[0]?.url;
+              // Use thumburl if available, otherwise fallback to url
+              const url = imgPages[imgPageId]?.imageinfo?.[0]?.thumburl || imgPages[imgPageId]?.imageinfo?.[0]?.url;
               if (url) companyImage = url;
             }
           }
