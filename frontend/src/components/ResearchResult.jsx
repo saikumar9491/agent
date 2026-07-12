@@ -70,9 +70,9 @@ export function ResearchResult({ data }) {
               <div className="flex items-end gap-5">
                 <div className="w-24 h-24 rounded-2xl bg-white flex items-center justify-center p-2 shadow-sm overflow-hidden border border-slate-200 shrink-0">
                   <img 
-                    src={getLogoUrl(data.websiteDomain, data.financials?.shortName, data.financials?.symbol)} 
+                    src={getLogoUrl(data.websiteDomain, data.financials?.shortName || data.companyName, data.financials?.symbol)} 
                     onError={(e) => {
-                      e.currentTarget.src = `https://ui-avatars.com/api/?name=${data.financials?.shortName || 'Company'}&background=random&color=fff&size=128&rounded=true&font-size=0.4`;
+                      e.currentTarget.src = `https://ui-avatars.com/api/?name=${data.financials?.shortName || data.companyName || 'Company'}&background=random&color=fff&size=128&rounded=true&font-size=0.4`;
                     }}
                     alt="Company Logo" 
                     className="w-full h-full object-contain rounded-xl"
@@ -80,7 +80,7 @@ export function ResearchResult({ data }) {
                 </div>
                 <div className="mb-2">
                   <h2 className="text-4xl font-black text-slate-900 tracking-tight flex items-center gap-3 bg-slate-50/90 px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
-                    {data.financials?.shortName || 'AI Analysis'}
+                    {data.financials?.shortName || data.companyName || 'AI Analysis'}
                     {data.financials?.symbol && <span className="text-xl font-medium text-slate-500 border border-slate-200 bg-slate-100 px-3 py-1 rounded-md">{data.financials.symbol}</span>}
                   </h2>
                 </div>
@@ -176,7 +176,7 @@ export function ResearchResult({ data }) {
                     <TrendingUp size={20} />
                   </div>
                   <h3 className="text-xl font-bold text-slate-900">
-                    {data.financials?.shortName || data.financials?.symbol || 'Unknown Asset'}
+                    {data.financials?.shortName || data.financials?.symbol || data.companyName || 'Unknown Asset'}
                   </h3>
                 </div>
                 

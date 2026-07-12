@@ -46,6 +46,7 @@ app.post('/api/research', async (req, res) => {
       companyImage: finalState.companyImage,
       websiteDomain: finalState.websiteDomain,
       sentimentScore: finalState.sentimentScore,
+      companyName: companyName,
     });
   } catch (err) {
     console.error("Research API Error:", err);
