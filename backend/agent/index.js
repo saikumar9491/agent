@@ -152,7 +152,7 @@ const gatherDataNode = async (state) => {
           const goodImages = images.filter(img => {
             const title = img.title.toLowerCase();
             return (title.endsWith('.jpg') || title.endsWith('.png')) 
-                   && (title.includes('headquarters') || title.includes('campus') || title.includes('building') || title.includes('park') || title.includes('office') || title.includes('aerial') || title.includes('hq') || title.includes('store'))
+                   && (title.includes('headquarters') || title.includes('campus') || title.includes('building') || title.includes('park') || title.includes('office') || title.includes('aerial') || title.includes('hq') || title.includes('store') || title.includes('center') || title.includes('facility'))
                    && !title.includes('logo') && !title.includes('icon');
           });
           
