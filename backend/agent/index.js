@@ -63,7 +63,8 @@ const gatherDataNode = async (state) => {
         Is this resolved public stock actually the company the user searched for? 
         Note: 
         - If the user searched for a private company (like OpenAI, Stripe, SpaceX, ByteDance, Anthropic, etc.) and Yahoo Finance returned an unrelated or similarly-named public company, you MUST mark it as NOT a match.
-        - If the user searched for a name that represents this exact public company (like "Apple" resolving to "Apple Inc." or "Google" to "Alphabet Inc."), mark it as a match.
+        - If the user searched for a parent company, conglomerate, or a general brand name (like "Tata", "Alphabet", "Google", "Meta") and Yahoo Finance returns a major public subsidiary or the holding company (like "Tata Motors", "Tata Technologies", "Alphabet Inc."), you MUST mark it as a match.
+        - Only mark as NOT a match if the resolved company is clearly completely unrelated to the user's search.
         
         Respond in JSON format:
         {
