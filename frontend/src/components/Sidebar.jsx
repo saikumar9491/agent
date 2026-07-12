@@ -39,7 +39,11 @@ export function Sidebar({ history, activeId, onSelect, onNewSearch, onDelete, is
             <div className="flex-1 overflow-y-auto space-y-2 pr-2">
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 px-2">Previous Research</h3>
               
-              {history.length === 0 ? (
+              {!currentUser ? (
+                <div className="px-2 py-4 text-center space-y-3">
+                  <p className="text-sm text-slate-500">Log in to save and view your research history.</p>
+                </div>
+              ) : history.length === 0 ? (
                 <p className="text-sm text-slate-400 px-2 italic">No history yet.</p>
               ) : (
                 history.map((item) => (
@@ -72,7 +76,7 @@ export function Sidebar({ history, activeId, onSelect, onNewSearch, onDelete, is
               )}
             </div>
 
-            {currentUser && (
+            {currentUser ? (
               <div className="mt-auto pt-4 border-t border-slate-200 flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-3 overflow-hidden">
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#2563EB] to-[#1d4ed8] flex items-center justify-center text-white font-black text-sm shrink-0 shadow-sm">
@@ -89,6 +93,15 @@ export function Sidebar({ history, activeId, onSelect, onNewSearch, onDelete, is
                   title="Log Out"
                 >
                   <LogOut size={18} />
+                </button>
+              </div>
+            ) : (
+              <div className="mt-auto pt-4 border-t border-slate-200">
+                <button 
+                  onClick={() => document.getElementById('trigger-login')?.click()}
+                  className="w-full py-3 btn-ios-primary rounded-xl font-medium text-sm flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                >
+                  Log In / Sign Up
                 </button>
               </div>
             )}

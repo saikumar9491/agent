@@ -20,6 +20,12 @@ export default function Home() {
   const [activeId, setActiveId] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
+  // Guest State
+  const [guestSearchCount, setGuestSearchCount] = useState(
+    parseInt(localStorage.getItem("guestSearches") || "0")
+  );
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
   // Initialize sidebar sizing and fetch history on login
   useEffect(() => {
     // Auto-collapse sidebar on mobile
@@ -94,7 +100,12 @@ export default function Home() {
 
   const handleResearch = async (e) => {
     e.preventDefault();
-    if (!companyName.trim() || !currentUser) return;
+    if (!companyName.trim()) return;
+
+    if (!currentUser && guestSearchCount >= 1) {
+      setShowAuthModal(true);
+      return;
+    }
 
     setLoading(true);
     setError("");
@@ -115,6 +126,13 @@ export default function Home() {
       }
 
       setResult(data);
+
+      if (!currentUser) {
+        const newCount = guestSearchCount + 1;
+        setGuestSearchCount(newCount);
+        localStorage.setItem("guestSearches", newCount.toString());
+        return;
+      }
 
       // Save to MongoDB History
       const saveRes = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/history`, {
@@ -154,13 +172,32 @@ export default function Home() {
     );
   }
 
-  // Render Login/Signup Portal if not authenticated
-  if (!currentUser) {
-    return <AuthPortal />;
-  }
-
   return (
-    <div className="flex min-h-screen relative overflow-hidden bg-white">
+    <>
+      {/* Hidden button to trigger login from Sidebar */}
+      <button id="trigger-login" className="hidden" onClick={() => setShowAuthModal(true)}></button>
+
+      {/* Auth Modal Overlay */}
+      {showAuthModal && !currentUser && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in p-4">
+          <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden animate-slide-up">
+            <button 
+              onClick={() => setShowAuthModal(false)}
+              className="absolute top-4 right-4 z-50 p-2 bg-slate-100 text-slate-500 hover:text-slate-900 rounded-full transition-colors"
+            >
+              ✕
+            </button>
+            <div className="p-4 bg-[#2563EB]/10 border-b border-[#2563EB]/20 text-center">
+              <p className="text-[#2563EB] font-medium text-sm">
+                You've used your free search. Please log in to continue researching!
+              </p>
+            </div>
+            <AuthPortal />
+          </div>
+        </div>
+      )}
+
+      <div className="flex min-h-screen relative overflow-hidden bg-white">
       
       {/* ChatGPT-style Sidebar */}
       <div className="print:hidden">
@@ -239,5 +276,6 @@ export default function Home() {
         )}
       </main>
     </div>
+    </>
   );
 }
