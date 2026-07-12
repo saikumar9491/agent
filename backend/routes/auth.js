@@ -85,7 +85,7 @@ router.post('/login', async (req, res) => {
 const { OAuth2Client } = require('google-auth-library');
 
 // NOTE: Replace with the exact same Client ID used in the frontend
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '770031514781-s7bdp0d19bkra2lt7t2aqokl82u6fbkd.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '580115183332-703d034v61d87bcj2p9hs349gm41vpvu.apps.googleusercontent.com';
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 router.post('/google', async (req, res) => {
