@@ -52,7 +52,7 @@ export function AuthPortal() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-transparent relative">
+    <div className="w-full flex items-center justify-center p-4 bg-transparent relative">
       {/* Background Orbs */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-purple-500/10 blur-[120px] pointer-events-none" />
